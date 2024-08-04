@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>All Fee Details</h2>
+    <div class="card mt-3">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Student Fee</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Amount Paid</th>
+                        <th scope="col">Due</th>
+                        <th scope="col">Payment Proof</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fee in fees %}
+                    <tr>
+                        <td>{{ fee.student.name }}</td>
+                        <td>{{ fee.student.sfee }}</td>
+                        <td>{{ fee.date }}</td>
+                        <td>{{ fee.paid }}</td>
+                        <td>{{ fee.due }}</td>
+                        <td><a href="{{ fee.payment.url }}">View Proof</a></td>
+                        <td>{% if fee.status %}Paid{% else %}Pending{% endif %}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="window.location.href='{%url 'approvefee' fee.id%}';" >Approve</button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No fee records found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

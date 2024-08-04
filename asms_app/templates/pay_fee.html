@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+{%load static%}
+<div class="container mt-5">
+    
+    <div class="card mt-3">
+        
+        <div class="card-body">
+            <h2>Pay Fee</h2>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <img src="{{ user.pic.url }}" alt="{{ user.name }}" class="img-fluid rounded-circle" style="max-width: 150px;">
+                </div>
+                <div class="col-md-8">
+                    <h5>Student Details:</h5>
+                    <p><strong>Name:</strong> {{ user.name }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Class:</strong> {{ user.sclass }}</p>
+                    <p><strong>Phone:</strong> {{ user.phone }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <h5>Fee Details:</h5>
+                    <p><strong>Total Fee:</strong> ₹{{ user.sfee }}</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Payment QR</h5>
+                    <img src="{%static 'images/qr.png'%}" style="height: 150px; width: 150px;" alt="">
+                </div>
+                <div class="col-md-6">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="paid" class="form-label">Amount Paid:</label>
+                            <input type="number" class="form-control" id="paid" name="paid" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="payment" class="form-label">Upload Payment Proof:</label>
+                            <input type="file" class="form-control" id="payment" name="payment" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Pay Fee</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Your Fee History</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Fee</th>
+                                    <th>Amount Paid</th>
+                                    <th>Amount Due</th>
+                                    <th>Payment Proof</th>
+                                    <th>Date Paid</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fee in fees %}
+                                <tr>
+                                    <td>{{ fee.student.name }}</td>
+                                    <td>{{user.sfee}}</td>
+                                    <td>₹{{ fee.paid }}</td>
+                                    <td>₹{{ fee.due }}</td>
+                                    <td><a href="{{fee.payment.url}}">Screenshot</a></td>
+                                    <td>{{ fee.date }}</td>
+                                    <td>{%if fee.status%}Paid {%else%}Pending{%endif%}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!-- assign_homework.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <h5 class="card-header">Assign Homework to {{ student.name }}</h5>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="homework" class="form-label">Homework</label>
+                            <input type="text" class="form-control" id="homework" name="homework" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="desc" class="form-label">Description</label>
+                            <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="submit_till" class="form-label">Submit Till</label>
+                            <input type="date" class="form-control" id="submit_till" name="submit_till" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Assign Homework</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+<!-- view_homework.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Your Homework</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Homework</th>
+                                    <th>Description</th>
+                                    <th>Last Date to Submit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for homework in homework_list %}
+                                <tr>
+                                    <td>{{ homework.homework }}</td>
+                                    <td>{{ homework.desc }}</td>
+                                    <td>{{ homework.submit_till }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3">No homework assigned.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+<!-- / Content -->
+{% block content %}
+
+<div class="container mt-5">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {%for m in messages%}
+                        {{m}}
+
+                {%endfor%}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">Add Teacher</h5>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <!-- Username -->
+                            <div class="col-md-6">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                            </div>
+                            <!-- Name -->
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                            </div>
+                            <!-- Class -->
+                            <div class="col-md-6">
+                                <label for="tclass" class="form-label">Class</label>
+                                <select class="form-control" id="tclass" name="tclass" required>
+                                    {% for value in class %}
+                                        <option value="{{ value }}">{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Password -->
+                            <div class="col-md-6">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            </div>
+                            <!-- Phone -->
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Salary -->
+                            <div class="col-md-6">
+                                <label for="tsalary" class="form-label">Salary</label>
+                                <input type="text" class="form-control" id="tsalary" name="tsalary" placeholder="Salary" required>
+                            </div>
+                            <!-- Address -->
+                            
+                            <div class="col-md-6">
+                                <label for="pic" class="form-label">Profile Picture</label>
+                                <input type="file" class="form-control" id="pic" name="pic" placeholder="Profile Picture" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Qualification -->
+                            <div class="col-md-6">
+                                <label for="qualification" class="form-label">Qualification</label>
+                                <input type="text" class="form-control" id="qualification" name="qualification" placeholder="Qualification" required>
+                            </div>
+                            <!-- Experience -->
+                            <div class="col-md-6">
+                                <label for="experience" class="form-label">Experience</label>
+                                <input type="text" class="form-control" id="experience" name="experience" placeholder="Experience" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Profile Picture -->
+                            <div class="col-md-12">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea class="form-control" id="address" name="address" placeholder="Address" style="height: 100px" required></textarea>
+                            </div>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">Add Teacher</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

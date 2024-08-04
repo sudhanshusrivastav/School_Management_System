@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Fund Details</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Total Amount:</strong> ₹{{ fund.amount }}</p>
+            <p><strong>Total Debit:</strong> ₹{{ fund.debit }}</p>
+            <p><strong>Total Credit:</strong> ₹{{ fund.credit }}</p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Recent Debits</h2>
+        </div>
+        <div class="card-body">
+            <ul>
+                {% for debit in recent_debits %}
+                <li>{{ debit.date }} - Salary paid to {{ debit.teacher }}</li>
+                {% empty %}
+                <li>No recent debits</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Recent Credits</h2>
+        </div>
+        <div class="card-body">
+            <ul>
+                {% for credit in recent_credits %}
+                <li>{{ credit.date }} - Fee paid by {{ credit.student }}</li>
+                {% empty %}
+                <li>No recent credits</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

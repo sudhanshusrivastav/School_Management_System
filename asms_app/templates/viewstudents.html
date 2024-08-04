@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">All Students</h5>
+                <div class="card-body">
+    <div class="table-responsive">
+
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Pic</th>
+                <th>Name</th>
+                <th>Class</th>
+                {%if not user.student%}
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Fee</th>
+                <th>Due</th>
+                {%endif%}
+                {%if user.admin%}
+                <th>Actions</th>
+                {%endif%}
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td><div class="flex-shrink-0 me-3">
+                    <div class="avatar">
+                      <img src="{{student.pic.url}}" alt class="w-px-40 h-px-40 rounded-circle" />
+                    </div>
+                  </div></td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.sclass }}</td>
+                {%if not user.student%}
+                <td>{{ student.email }}</td>
+                <td>{{student.phone}}</td>
+                <td>{{student.sfee}}</td>
+                <td>{{student.balance}}</td>
+                {%endif%}
+                {%if user.admin%}
+                <td>
+                    <form action="{% url 'remove_student' student.username %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                    </form>
+                </td>
+                {%endif%}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

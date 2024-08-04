@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">All Teachers</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Pic</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Class</th>
+                                    <th>Phone</th>
+                                    {%if not user.student%}
+                                    <th>Salary</th>
+                                    <th>Address</th>
+                                    <th>Qualification</th>
+                                    <th>Experience</th>
+                                    {%endif%}
+                                    {% if user.admin %}
+                                    <th>Actions</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for teacher in teachers %}
+                                <tr>
+                                    <td>
+                                        <div class="flex-shrink-0 me-3">
+                                            <div class="avatar">
+                                                <img src="{{ teacher.pic.url }}" alt="{{ teacher.name }}" class="w-px-40 h-auto rounded-circle" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ teacher.name }}</td>
+                                    <td>{{ teacher.email }}</td>
+                                    <td>{{ teacher.tclass }}</td>
+                                    <td>{{ teacher.phone }}</td>
+                                    {%if not user.student%}
+                                    <td>{{ teacher.tsalary }}</td>
+                                    <td>{{ teacher.address }}</td>
+                                    <td>{{ teacher.qualification }}</td>
+                                    <td>{{ teacher.experience }}</td>
+                                    {%endif%}
+                                    {% if user.admin %}
+                                    <td>
+                                        <form action="{% url 'remove_teacher' teacher.username %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                        </form>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

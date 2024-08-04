@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Students of your class</h5>
+                {%for m in messages%} <span class="app-brand-text menu-text fw-bolder ms-2" >
+                
+                    {{m}}
+                
+            </span>{%endfor%}
+                <div class="card-body">
+    <div class="table-responsive">
+
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Pic</th>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Fee</th>
+                <th>Due</th>
+                {%if user.admin%}
+                <th>Actions</th>
+                {%endif%}
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td><div class="flex-shrink-0 me-3">
+                    <div class="avatar">
+                      <img src="{{student.pic.url}}" alt class="w-px-40 h-auto rounded-circle" />
+                    </div>
+                  </div></td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.sclass }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{student.phone}}</td>
+                <td>{{student.sfee}}</td>
+                <td>{{student.balance}}</td>
+                {%if user.teacher%}
+                <td>
+                    <form action="{% url 'assign_homework' student.username %}" method="get">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-sm">Assign Homework</button>
+                    </form>
+                </td>
+                {%endif%}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No students found in your class.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+

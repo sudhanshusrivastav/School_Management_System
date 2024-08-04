@@ -1,0 +1,280 @@
+{%load static%}
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+      <img src="{%static 'images/plus.png'%}" style="height: 50px; width: 50px;" alt="">
+        <a href="/dashboard/" class="app-brand-link">
+            <span class="app-brand-text menu-text fw-bolder ms-2 fs-5">Academia+</span>
+        </a>
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
+    </div>
+    <div class="menu-inner-shadow"></div>
+    <ul class="menu-inner py-1">
+        <li class="menu-item active">
+            <a href="/dashboard/" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home"></i>
+                <div data-i18n="Analytics">Dashboard</div>
+            </a>
+        </li>
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Manage Students</span></li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bxs-graduation"></i>
+                <div data-i18n="Layouts">Student</div>
+            </a>
+            <ul class="menu-sub">
+                {%if user.admin%}
+                <li class="menu-item">
+                    <a href="/addstudent/" class="menu-link">
+                        <div data-i18n="Without menu">Add Student</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/view_fee/" class="menu-link">
+                      <div data-i18n="Basic">Fee Status</div>
+                  </a>
+              </li>
+                {%elif user.teacher%}
+                <li class="menu-item">
+                    <a href="/mark_attendance/" class="menu-link">
+                        <div data-i18n="Without menu">Mark Attendance</div>
+                    </a>
+                </li>
+              <li class="menu-item">
+                <a href="/view_class_students/" class="menu-link">
+                    <div data-i18n="Basic">Give Homework</div>
+                </a>
+            </li>
+                {%endif%}
+                <li class="menu-item">
+                    <a href="/view_students/" class="menu-link">
+                        <div data-i18n="Without menu">View Students</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/view_attendance/" class="menu-link">
+                        <div data-i18n="Without menu">View Attendance</div>
+                    </a>
+                </li>
+              {%if user.student%}
+              
+              <li class="menu-item">
+                <a href="/pay_fee/" class="menu-link">
+                    <div data-i18n="Basic">Pay Fee</div>
+                </a>
+            </li>
+              <li class="menu-item">
+                <a href="/view_homework/" class="menu-link">
+                    <div data-i18n="Basic">View Homework</div>
+                </a>
+            </li>
+            {%endif%}
+            </ul>
+        </li>
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Manage Teachers</span></li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-user-voice"></i>
+                <div data-i18n="Layouts">Teacher</div>
+            </a>
+            <ul class="menu-sub">
+              {% if user.admin%}
+                <li class="menu-item">
+                    <a href="/addteacher/" class="menu-link">
+                        <div data-i18n="Without menu">Add Teacher</div>
+                    </a>
+                </li>
+                
+                <li class="menu-item">
+                    <a href="/attendance/" class="menu-link">
+                        <div data-i18n="Without menu">Mark Attendance</div>
+                    </a>
+                </li>
+                {%endif%}
+                <li class="menu-item">
+                  <a href="/view_teachers/" class="menu-link">
+                      <div data-i18n="Without menu">View Teachers</div>
+                  </a>
+              </li>
+              {%if user.admin%}
+                <li class="menu-item">
+                    <a href="/view_teacher_attendance/" class="menu-link">
+                        <div data-i18n="Without menu">View Attendance</div>
+                    </a>
+                </li>
+              
+                <li class="menu-item">
+                  <a href="/salary/" class="menu-link">
+                      <div data-i18n="Basic">Salary Management</div>
+                  </a>
+              </li>
+              {%elif user.teacher%}
+              <li class="menu-item">
+                <a href="/view_teacher_attendance/" class="menu-link">
+                    <div data-i18n="Without menu">View Attendance</div>
+                </a>
+            </li>
+            <li class="menu-item">
+              <a href="/viewsalary/" class="menu-link">
+                  <div data-i18n="Basic">View Salary</div>
+              </a>
+          </li>
+              {%endif%}
+              
+            </ul>
+        </li>
+
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Others</span></li>
+
+        {%if user.student%}
+        <li class="menu-item">
+          <a href="/view_notice/" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-info-circle"></i>
+              <div data-i18n="Basic">View Notice</div>
+          </a>
+      </li>
+      
+      <li class="menu-item">
+        <a href="/post_query/" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-message-square-dots"></i>
+            <div data-i18n="Basic">Post Queries</div>
+        </a>
+    </li>
+    <li class="menu-item">
+      <a href="/all_queries/" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-chat"></i>
+          <div data-i18n="Basic">All Queries</div>
+      </a>
+  </li>
+        {%else%}
+        <li class="menu-item">
+            <a href="/notice/" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-info-circle"></i>
+                <div data-i18n="Basic">Add Notice</div>
+            </a>
+        </li>
+        <li class="menu-item">
+          <a href="/all_queries/" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-chat"></i>
+              <div data-i18n="Basic">Queries</div>
+          </a>
+      </li>
+        {%endif%}
+
+        {%if user.admin%}
+        <li class="menu-item">
+          <a href="/addsubjects/" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-book"></i>
+              <div data-i18n="Basic">Add Subjects</div>
+          </a>
+      </li>
+        <li class="menu-item">
+            <a href="/funds/" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-rupee"></i>
+                <div data-i18n="Basic">Funds</div>
+            </a>
+        </li>
+        {%else%}
+        <li class="menu-item">
+          <a href="/subjects/" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-book-open"></i>
+              <div data-i18n="Basic">View Subjects</div>
+          </a>
+      </li>
+        {%endif%}
+        
+
+        <li class="menu-item">
+            <a href="/logout/" target="_blank" class="menu-link">
+                <i class="bx bx-power-off me-2"></i>
+                <div data-i18n="Documentation" class="text-danger">Logout</div>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+      <div class="layout-page">
+
+        <nav
+          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+          id="layout-navbar"
+        >
+          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+              <i class="bx bx-menu bx-sm"></i>
+            </a>
+          </div>
+
+          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+           
+            <span class="menu-text fw-bolder ms-2" style="font-size: 1.6vw;">School Management System</span>
+            {%for m in messages%} <span class="app-brand-text menu-text fw-bolder ms-2" >
+                
+                    {{m}}
+                
+            </span>{%endfor%}
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+              <li class="nav-item lh-1 me-3">
+                <p class="mt-3 fw-bolder">{{user.name}}</p>
+              </li>
+
+              <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                  <div class="avatar avatar-online">
+                    <img src="{{user.pic.url}}" alt class="w-px-40 h-auto rounded-circle" />
+                  </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <a class="dropdown-item" href="#">
+                      <div class="d-flex">
+                        <div class="flex-shrink-0 me-3">
+                          <div class="avatar avatar-online">
+                            <img src="{{user.pic.url}}" alt class="w-px-40 h-auto rounded-circle" />
+                          </div>
+                        </div>
+                        <div class="flex-grow-1">
+                          <span class="fw-semibold d-block">{{user.name}}</span>
+                          <small class="text-muted">{{user.utype}} {%if not user.admin%}Class {{user.tclass}}{{user.sclass}}{%endif%}</small>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <div class="dropdown-divider"></div>
+                  </li>
+                  <li>
+                    {%if user.student%}
+                    <a class="dropdown-item" href="/edit_student_profile/">
+                    {%elif user.teacher%}
+                    <a class="dropdown-item" href="/edit_teacher_profile/">
+                      {%elif user.admin%}
+                      <a class="dropdown-item" href="/edit_admin_profile/">
+                      {%endif%}
+                      <i class="bx bx-user me-2"></i>
+                      <span class="align-middle">Edit Profile</span>
+                    </a>
+                  </li>
+                  <li>
+                    <div class="dropdown-divider"></div>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/logout/">
+                      <i class="bx bx-power-off me-2"></i>
+                      <span class="align-middle">Log Out</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+
+        
+        <div class="content-wrapper">
+            

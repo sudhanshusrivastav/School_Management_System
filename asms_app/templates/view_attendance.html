@@ -1,0 +1,58 @@
+<!-- templates/view_student_attendance.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="date" class="form-label">Select Date</label>
+                <input type="date" class="form-control" id="date" name="date" value="{{ selected_date }}" required>
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">View Attendance</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Student Attendance for {{ selected_date }}</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Pic</th>
+                                    <th>Student Name</th>
+                                    <th>Student Class</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for attendance in attendances %}
+                                <tr>
+                                    <td><div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                          <img src="{{attendance.student.pic.url}}" alt class="w-px-40 h-auto rounded-circle" />
+                                        </div>
+                                      </div></td>
+                                    <td>{{ attendance.student.name }}</td>
+                                    <td>{{attendance.student.sclass}}</td>
+                                    <td>{{ attendance.status|yesno:"Present,Absent" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="2">No attendance records found for the selected date.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

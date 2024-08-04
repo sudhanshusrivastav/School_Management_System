@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">All Teachers</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Pic</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Class</th>
+                                    <th>Phone</th>
+                                    <th>Salary</th>
+                                    {% if user.admin %}
+                                    <th>Actions</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for teacher in teachers %}
+                                <tr>
+                                    <td>
+                                        <div class="flex-shrink-0 me-3">
+                                            <div class="avatar">
+                                                <img src="{{ teacher.pic.url }}" alt="{{ teacher.name }}" class="w-px-40 h-auto rounded-circle" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ teacher.name }}</td>
+                                    <td>{{ teacher.email }}</td>
+                                    <td>{{ teacher.tclass }}</td>
+                                    <td>{{ teacher.phone }}</td>
+                                    <td>₹{{ teacher.tsalary }}</td>
+                                    {% if user.admin %}
+                                    <td>
+                                        <form action="{% url 'pay_salary' teacher.username %}" method="get">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-primary btn-sm">Pay Salary</button>
+                                        </form>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Paid Salaries</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Salary</th>
+                                    <th>Amount Paid</th>
+                                    <th>Amount Due</th>
+                                    <th>Date Paid</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for salary in salary %}
+                                <tr>
+                                    <td>{{ salary.teacher.name }}</td>
+                                    <td>₹{{ salary.amount }}</td>
+                                    <td>₹{{ salary.paid }}</td>
+                                    <td>₹{{salary.due}}</td>
+                                    <td>{{ salary.updated }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

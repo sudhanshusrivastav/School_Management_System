@@ -1,0 +1,123 @@
+{%extends 'base.html'%}
+<!-- / Content -->
+{%block content%}
+
+<div class="container mt-5">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {%for m in messages%}
+        {{m}}
+
+        {%endfor%}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">Add Student</h5>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <!-- Username -->
+                            <div class="col-md-6">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username"
+                                    placeholder="Username" required>
+                            </div>
+                            <!-- Name -->
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="sfee" class="form-label">School Fee</label>
+                                <input type="number" class="form-control" id="sfee" name="sfee" placeholder="School Fee"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="balance" class="form-label">Balance</label>
+                                <input type="number" class="form-control" id="balance" name="balance"
+                                    placeholder="Balance" value="0">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Class -->
+                            <div class="col-md-6">
+                                <label for="sclass" class="form-label">Class</label>
+                                <select class="form-control" id="sclass" name="sclass" required>
+                                    {% for value in class %}
+                                    <option value="{{ value }}">{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <!-- Father's Name -->
+                            <div class="col-md-6">
+                                <label for="fathers_name" class="form-label">Father's Name</label>
+                                <input type="text" class="form-control" id="fathers_name" name="fathers_name"
+                                    placeholder="Father's Name" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Date of Birth -->
+                            <div class="col-md-6">
+                                <label for="DoB" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="DoB" name="DoB" placeholder="Date of Birth"
+                                    required>
+                            </div>
+                            <!-- Father's Phone -->
+                            <div class="col-md-6">
+                                <label for="fathers_phone" class="form-label">Father's Phone</label>
+                                <input type="text" class="form-control" id="fathers_phone" name="fathers_phone"
+                                    placeholder="Father's Phone" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                    required>
+                            </div>
+                            <!-- Phone -->
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Password -->
+                            <div class="col-md-6">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Password" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="pic" class="form-label">Profile Picture</label>
+                                <input type="file" class="form-control" id="pic" name="pic"
+                                    placeholder="Profile Picture" required>
+                            </div>
+                            <!-- Address -->
+
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea class="form-control" id="address" name="address" placeholder="Address"
+                                    style="height: 100px" required></textarea>
+                            </div>
+
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">Add Student</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{%endblock%}

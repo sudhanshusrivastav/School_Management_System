@@ -1,0 +1,419 @@
+{%extends 'base.html'%}
+
+
+{%load static%}
+<!-- / Content -->
+{%block content%}
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-lg-6 mb-4 order-0">
+            <div class="card" style="min-height: 210px;">
+                <div class="d-flex align-items-center row">
+                    <div class="col-sm-5">
+                        <div class="card-body">
+                            <h5 class="card-title text-dark">Hello {{user.name}}! </h5>
+                            <p class="mb-4">
+                                Welcome to Academia+<span class="fw-bold"></span> 
+                            </p>
+                            {%if user.student%}
+                    <a class="btn btn-sm btn-outline-dark" href="/edit_student_profile/">
+                    {%elif user.teacher%}
+                    <a class="btn btn-sm btn-outline-dark" href="/edit_teacher_profile/">
+                      {%elif user.admin%}
+                      <a class="btn btn-sm btn-outline-dark" href="/edit_admin_profile/">
+                      {%endif%}
+                      <i class="bx bx-user me-2"></i>
+                      <span class="align-middle">View Profile</span>
+                    </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 text-center text-sm-left">
+                        <div class="card-body pb-0 px-0 px-md-4">
+                            <img src="{% static 'images/a.jpeg'%}" height="185"
+                                alt="View Badge User" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 order-1">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-6 mb-4">
+    <div class="card" style="min-height: 210px;">
+        <div class="card-header m-0 me-2 pb-3 fw-bolder" style="font-size: 1.5rem;"><i class='bx bx-detail me-2' style="font-size: 2rem;"></i>Overview</div>
+        <div class="card-body">
+            {%if user.admin%}
+            <p><strong>Number of Teachers:</strong> <a href="/view_teachers/" class="text-primary fw-bolder ms-2" style="font-size: 1.5rem;">{{ total_teachers }}</a></p>
+            <p><strong>Number of Students:</strong> <a href="/view_students/" class="text-dark fw-bolder ms-2" style="font-size: 1.5rem;">{{ total_students }}</a></p>
+            {%else%}
+            <p><strong>Number of Teachers:</strong> <a href="/view_teachers/" class="text-primary fw-bolder ms-2" style="font-size: 1.5rem;">{{ total_teachers }}</a></p>
+            <p><strong>Number of Students:</strong> <a href="#" class="text-dark fw-bolder ms-2" style="font-size: 1.5rem;">{{ total_students }}</a></p>
+            {%endif%}
+        </div>
+    </div>
+                </div>
+               {%if not user.student%}
+
+               <div class="col-lg-6 col-md-12 col-sm-6 mb-4">
+
+                <div class="card" style="min-height: 210px;">
+                    <div class="card-header m-0 me-2 pb-2 fw-bolder" style="font-size: 1.5rem;"><i class='bx bx-wallet me-2' style="font-size: 2rem;"></i>Fund Details</div>
+                    <div class="card-body">
+                        <p><strong>Total Amount:</strong> <span class="text-primary ms-2">₹{{ fund.amount }}</span></p>
+                        <p><strong>Total Debit:</strong> <span class="text-danger ms-2">-₹{{ fund.debit }}</span></p>
+                        <p><strong>Total Credit:</strong> <span class="text-success ms-2">+₹{{ fund.credit }}</span></p>
+                    </div>
+                </div>
+        </div>
+               {%else%}
+               <div class="col-lg-6 col-md-12 col-sm-6 mb-4">
+                <div class="card" style="min-height: 210px;">
+                        <div class="card-title mb-0">
+                            <div class="card-header m-0 me-2 pb-2 fw-bolder" style="font-size: 1.2rem;">Your Class Teacher</div>
+                        </div>
+                    <div class="card-body">
+                        <ul class="p-0 m-0">
+                            {% for teacher in teacherss %}
+                            <li class="d-flex mb-4 pb-1">
+                                <div class="avatar flex-shrink-0 me-3">
+                                    <img src="{{ teacher.pic.url }}" alt="Teacher" class="rounded" />
+                                </div>
+                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                    <div class="me-2">
+                                        <h6 class="mb-0">{{ teacher.name }}</h6>
+                                        <small class="text-muted">{{ teacher.qualification }}</small>
+                                    </div>
+                                </div>
+                            </li>
+                            {% empty %}
+                            <li>No class teachers assigned yet</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+               {%endif%}
+            </div>
+        </div>
+        <!-- Total Revenue -->
+    </div>
+        
+<div class="row" >
+        <!-- Order Statistics -->
+        <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
+            {%if user.admin%}
+            <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between pb-0">
+                    <div class="card-title mb-0">
+                        <h5 class="m-0 me-2 mb-4">Newly Added Students</h5>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn p-0" type="button" id="newlyAddedStudents" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="newlyAddedStudents">
+                            <a class="dropdown-item" href="/view_students/">View All</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="p-0 m-0">
+                        {% for student in students %}
+                        <li class="d-flex mb-4 pb-1">
+                            <div class="avatar flex-shrink-0 me-3">
+                                <img src="{{ student.pic.url }}" alt="Student Photo" class="rounded-circle" style="width: 40px; height: 40px;">
+                            </div>
+                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                    <h6 class="mb-0">{{ student.name }}</h6>
+                                    <small class="text-muted">{{ student.email }}</small>
+                                </div>
+                                <div class="user-progress">
+                                    <small class="fw-semibold me-4">Class: {{ student.sclass }}</small>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {%elif user.teacher%}
+            <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between pb-0">
+                    <div class="card-title mb-0">
+                        <h5 class="m-0 me-2 mb-4">Students of your class</h5>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn p-0" type="button" id="newlyAddedStudents" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="newlyAddedStudents">
+                            <a class="dropdown-item" href="/view_class_students/">View All</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="p-0 m-0">
+                        {% for student in studentss %}
+                        <li class="d-flex mb-4 pb-1">
+                            <div class="avatar flex-shrink-0 me-3">
+                                <img src="{{ student.pic.url }}" alt="Student Photo" class="rounded-circle" style="width: 40px; height: 40px;">
+                            </div>
+                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                    <h6 class="mb-0">{{ student.name }}</h6>
+                                    <small class="text-muted">{{ student.email }}</small>
+                                </div>
+                                <div class="user-progress">
+                                    <small class="fw-semibold me-4">Class: {{ student.sclass }}</small>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            {%else%}
+            <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="card-title m-0 me-2">Your Queries</h5>
+                </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Query ID</th>
+                                <th>Question</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for query in queries %}
+                            <tr>
+                                <td>{{ query.id }}</td>
+                                <td>{{ query.question }}</td>
+                                <td>{{ query.created }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No queries found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+</div>
+
+
+            {%endif%}
+        </div>
+        <!--/ Order Statistics -->
+            <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center justify-content-between pb-0">
+                        <div class="card-title mb-0">
+                            <h5 class="m-0 me-2 mb-4">Newly Added Teachers</h5>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn p-0" type="button" id="newlyAddedTeachers" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="newlyAddedTeachers">
+                                <a class="dropdown-item" href="/view_teachers/">View All</a>
+                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="p-0 m-0">
+                            {% for teacher in teachers %}
+                            <li class="d-flex mb-4 pb-1">
+                                <div class="avatar flex-shrink-0 me-3">
+                                    <img src="{{ teacher.pic.url }}" alt="Teacher" class="rounded" />
+                                </div>
+                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                    <div class="me-2">
+                                        <h6 class="mb-0">{{ teacher.name }}</h6>
+                                        <small class="text-muted">{{ teacher.qualification }}</small>
+                                    </div>
+                                    <div class="user-progress">
+                                        <small class="fw-semibold me-4">Class: {{ teacher.tclass }}</small>
+                                    </div>
+                                </div>
+                            </li>
+                            {% empty %}
+                            <li>No newly added teachers</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--/ Newly Added Teachers -->
+
+        
+        <div class="col-md-6 col-lg-4 order-2 mb-4">
+            {%if user.admin%}
+            <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between pb-0">
+                    <div class="card-title mb-0">
+                        <h5 class="m-0 me-2 mb-4">Transactions</h5>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn p-0" type="button" id="newlyAddedTeachers" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="newlyAddedTeachers">
+                            <a class="dropdown-item" href="/funds/">View All</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <ul class="p-0 m-0">
+                        {% for transaction in last_three_transactions %}
+                        <li class="d-flex mb-4 pb-1">
+                            <div class="avatar flex-shrink-0 me-3">
+                                {% if transaction.student %}
+                                    <img src="{{ transaction.student.pic.url }}" alt="User" class="rounded" />
+                                {% elif transaction.teacher %}
+                                    <img src="{{ transaction.teacher.pic.url }}" alt="User" class="rounded" />
+                                {% endif %}
+                            </div>
+                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                    {% if transaction.student %}
+                                        <small class="text-muted d-block mb-1">Fee Paid</small>
+                                        <h6 class="mb-0">{{ transaction.date }} - Paid by {{ transaction.student }}</h6>
+                                    {% elif transaction.teacher %}
+                                        <small class="text-muted d-block mb-1">Salary Paid</small>
+                                        <h6 class="mb-0">{{ transaction.date }} - Paid to {{ transaction.teacher }}</h6>
+                                    {% endif %}
+                                </div>
+                                <div class="user-progress d-flex align-items-center gap-1">
+                                    {% if transaction.student %}
+                                        <h6 class="mb-0 text-success">+₹{{ transaction.paid }}</h6>
+                                        <span class="text-muted">Rupee</span>
+                                    {% elif transaction.teacher %}
+                                        <h6 class="mb-0 text-danger">-₹{{ transaction.amount }}</h6>
+                                        <span class="text-muted">Rupee</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+            {%elif user.student%}
+ <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="card-title m-0 me-2">Your Homework</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Homework</th>
+                                    <th>Description</th>
+                                    <th>Last Date to Submit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for homework in homework_list %}
+                                <tr>
+                                    <td>{{ homework.homework }}</td>
+                                    <td>{{ homework.desc }}</td>
+                                    <td>{{ homework.submit_till }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3">No homework assigned.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+{%else%}
+<div class="card h-100">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Your Salaries</h5>
+    </div>
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Salary</th>
+                    <th>Received</th>
+                    <th>Due</th>
+                    <th>Date Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for salary in salariess %}
+                <tr>
+                    <td>₹{{ salary.amount }}</td>
+                    <td>₹{{ salary.paid }}</td>
+                    <td>₹{{salary.due}}</td>
+                    <td>{{ salary.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+            {%endif%}
+        </div>
+    
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Notices</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>For Class</th>
+                                    <th>Exam Name</th>
+                                    <th>Exam Date</th>
+                                    <th>Exam Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for notice in notices %}
+                                <tr>
+                                    <td>{{notice.ofclass}}</td>
+                                    <td>{{ notice.examname }}</td>
+                                    <td>{{ notice.examdate }}</td>
+                                    <td>{{ notice.examtime }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

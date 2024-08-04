@@ -1,0 +1,65 @@
+<!-- add_exam.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Add Exam</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="ofclass" class="form-label">Class</label>
+            <select class="form-select" id="ofclass" name="ofclass" required>
+                <option value="">Select Class</option>
+                {% for i in "12345678910" %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="examname" class="form-label">Exam Name</label>
+            <input type="text" class="form-control" id="examname" name="examname" required>
+        </div>
+        <div class="mb-3">
+            <label for="examdate" class="form-label">Exam Date</label>
+            <input type="date" class="form-control" id="examdate" name="examdate" required>
+        </div>
+        <div class="mb-3">
+            <label for="examtime" class="form-label">Exam Time</label>
+            <input type="time" class="form-control" id="examtime" name="examtime" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Notice</button>
+    </form>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Notices</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>For Class</th>
+                                    <th>Exam Name</th>
+                                    <th>Exam Date</th>
+                                    <th>Exam Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for notice in notices %}
+                                <tr>
+                                    <td>{{notice.ofclass}}</td>
+                                    <td>{{ notice.examname }}</td>
+                                    <td>{{ notice.examdate }}</td>
+                                    <td>{{ notice.examtime }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

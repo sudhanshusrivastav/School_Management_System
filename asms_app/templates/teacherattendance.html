@@ -1,0 +1,61 @@
+<!-- mark_teacher_attendance.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">Mark Attendance</h5>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" value="{{ selected_date }}" required>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Teacher Pic</th>
+                                        <th>Teacher Name</th>
+                                        <th>Teacher Class</th>
+                                        <th>Attendance Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for teacher in teachers %}
+                                    <tr>
+                                        <td>
+                                            <div class="flex-shrink-0 me-3">
+                                                <div class="avatar">
+                                                    <img src="{{ teacher.pic.url }}" alt="{{ teacher.name }}" class="w-px-40 h-auto rounded-circle" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ teacher.name }}</td>
+                                        <td>{{ teacher.tclass }}</td>
+                                        <td>
+                                            
+                                            <input type="radio" name="attendance[{{ teacher.username }}]" value="True"> Present
+                                            <input type="radio" name="attendance[{{ teacher.username }}]" value="False"> Absent
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">Submit Attendance</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

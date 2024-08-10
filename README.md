@@ -1,4 +1,6 @@
 To login initially as school admin: username - sudhanshu, password - sudhanshu
+
+
 Admin Dashboard
 ![home](https://github.com/user-attachments/assets/ed11c387-8f09-4da9-96e7-f5d6aab91778)
 
